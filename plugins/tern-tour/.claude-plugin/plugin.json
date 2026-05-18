@@ -1,0 +1,9 @@
+{
+  "name": "tern-tour",
+  "description": "Set up Tern and open an AI-guided tour of any branch or GitHub PR, from your agent.",
+  "author": {
+    "name": "Tern"
+  },
+  "homepage": "https://tern.sh",
+  "repository": "https://github.com/ternhq/tern-claude-plugin"
+}

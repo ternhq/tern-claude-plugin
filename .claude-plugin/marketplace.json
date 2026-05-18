@@ -1,0 +1,16 @@
+{
+  "name": "tern",
+  "owner": {
+    "name": "Tern"
+  },
+  "description": "Agent plugins from Tern (https://tern.sh).",
+  "plugins": [
+    {
+      "name": "tern-tour",
+      "source": "./plugins/tern-tour",
+      "description": "Set up Tern and open an AI-guided tour of any branch or GitHub PR, from your agent.",
+      "homepage": "https://tern.sh",
+      "repository": "https://github.com/ternhq/tern-claude-plugin"
+    }
+  ]
+}
