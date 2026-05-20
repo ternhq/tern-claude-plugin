@@ -52,11 +52,11 @@ The skill is self-contained and sets everything up on first run:
 
 1. **Installs the `tern` CLI** if it's missing
    (`curl -fsSL https://tern.sh/install.sh | bash`).
-2. **Runs `tern pr-review`**, which links the repo on the way through and
+2. **Runs `tern tour`**, which links the repo on the way through and
    opens the tour.
 
 No browser available, like a remote or CI shell? It falls back to
-`tern pr-review --post-draft`, which posts the tour as a pending GitHub review
+`tern tour --post-draft`, which posts the tour as a pending GitHub review
 instead of opening a page.
 
 ## Requirements
