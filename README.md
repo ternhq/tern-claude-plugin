@@ -19,6 +19,13 @@ In Claude Code:
 /plugin install tern-tour@tern
 ```
 
+In Codex, let the built-in installer fetch it (it picks the install location
+for you):
+
+```text
+$skill-installer install https://github.com/ternhq/tern-claude-plugin/tree/main/plugins/tern-tour/skills/tour
+```
+
 ## Use
 
 From a checkout of the repo, just ask your agent:
@@ -26,7 +33,7 @@ From a checkout of the repo, just ask your agent:
 > review this branch with tern
 
 The agent picks up the skill on its own. Or invoke it explicitly, with no
-argument:
+argument — `/tern-tour:tour` in Claude Code, `$tour` in Codex:
 
 ```text
 /tern-tour:tour
@@ -37,7 +44,8 @@ you get its tour; if not, you get your local branch compared against its
 merge-base. The common case is the thing you're already looking at, so you
 rarely pass anything.
 
-To review a PR you don't have checked out, pass its URL from anywhere:
+To review a PR you don't have checked out, pass its URL from anywhere (in
+Codex, `$tour https://github.com/owner/repo/pull/123`):
 
 ```text
 /tern-tour:tour https://github.com/owner/repo/pull/123
