@@ -71,6 +71,9 @@ long-running/background process; the tour opens shortly after it starts.
 Running from inside the repo auto-links it on the way through, so there is no
 need to run `tern repo add` first.
 
+If a `tern` command errors (for example reporting an unknown command on an older
+CLI), run `"$TERN" update` to upgrade, then retry.
+
 ### Headless fallback (no browser)
 
 Not the default. Use only when no browser is available, such as a remote or CI

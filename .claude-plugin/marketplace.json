@@ -6,9 +6,16 @@
   "description": "Agent plugins from Tern (https://tern.sh).",
   "plugins": [
     {
-      "name": "tern-tour",
-      "source": "./plugins/tern-tour",
-      "description": "Set up Tern and open an AI-guided tour of any branch or GitHub PR, from your agent.",
+      "name": "tern",
+      "source": "./plugins/tern",
+      "description": "On-demand skills: an AI-guided tour of a branch or PR, and git-history context (co-change, in-flight PRs, movement, revert-prone) for files you're about to change.",
+      "homepage": "https://tern.sh",
+      "repository": "https://github.com/ternhq/tern-claude-plugin"
+    },
+    {
+      "name": "tern-plan-hook",
+      "source": "./plugins/tern-plan-hook",
+      "description": "Opt-in plan-mode hook that nudges the agent to consult git-history before finalizing which files to edit.",
       "homepage": "https://tern.sh",
       "repository": "https://github.com/ternhq/tern-claude-plugin"
     }

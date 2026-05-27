@@ -1,0 +1,9 @@
+{
+  "name": "tern",
+  "description": "Tern's on-demand skills: open an AI-guided tour of a branch or PR, and surface what git history knows that the code at HEAD doesn't (co-change, in-flight PRs, movement, revert-prone files) for the files you're about to change.",
+  "author": {
+    "name": "Tern"
+  },
+  "homepage": "https://tern.sh",
+  "repository": "https://github.com/ternhq/tern-claude-plugin"
+}
