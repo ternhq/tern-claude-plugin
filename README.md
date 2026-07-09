@@ -1,20 +1,18 @@
 # Tern agent plugins
 
-Agent plugins from [Tern](https://tern.sh) for Claude Code (and Codex). Add the
-marketplace once, then install the plugins you want:
+The `tern` plugin from [Tern](https://tern.sh) for Claude Code (and Codex)
+gives you two on-demand skills — **tour** and **git-history**. Installing it
+changes no behavior; the agent reaches for a skill when it's relevant (or you
+invoke one explicitly).
 
 ```text
 /plugin marketplace add ternhq/tern-claude-plugin
+/plugin install tern@tern
 ```
-
-| Plugin | What it gives you | Install |
-| --- | --- | --- |
-| **`tern`** | On-demand skills — **tour** and **git-history**. Installing it changes no behavior; the agent reaches for a skill when it's relevant (or you invoke one explicitly). | `/plugin install tern@tern` |
-| **`tern-plan-hook`** | An **opt-in plan-mode hook** that nudges the agent to consult git-history before it locks in which files to edit. It installs an automatic behavior, so it's a separate, deliberate opt-in. | `/plugin install tern-plan-hook@tern` |
 
 ---
 
-## `tern` — the skills
+## The skills
 
 ### Tour
 
@@ -77,23 +75,6 @@ It returns four signals, each a breadcrumb you can't get by reading code at HEAD
 
 ---
 
-## `tern-plan-hook` — plan-mode nudge (opt-in)
-
-A Claude Code hook that reminds the agent, while it's planning, to run
-git-history on the files it intends to edit — so the coupling and in-flight work
-above get folded into the plan instead of discovered after the fact. It fires
-during plan mode and as a plan is submitted.
-
-This is automatic and a little noisy by design, which is why it's a separate
-plugin: install it only if you want the nudge. It pairs with the git-history
-skill in the `tern` plugin (and assumes the `tern` CLI is installed).
-
-```text
-/plugin install tern-plan-hook@tern
-```
-
----
-
 ## Requirements
 
 - macOS or Linux (the CLI installer is `curl … | bash`).
@@ -109,8 +90,8 @@ if there isn't one.
 
 ## Codex
 
-The skills also work in Codex (the `tern-plan-hook` plugin is Claude Code only).
-Let the built-in installer fetch a skill — it picks the install location:
+The skills also work in Codex. Let the built-in installer fetch a skill — it
+picks the install location:
 
 ```text
 $skill-installer install https://github.com/ternhq/tern-claude-plugin/tree/main/plugins/tern/skills/tour

@@ -1,9 +1,0 @@
-{
-  "name": "tern-plan-hook",
-  "description": "Opt-in plan-mode hook: nudges the agent to consult `tern git-history` for hidden coupling and in-flight work before it finalizes which files to edit. Pairs with the git-history skill in the `tern` plugin.",
-  "author": {
-    "name": "Tern"
-  },
-  "homepage": "https://tern.sh",
-  "repository": "https://github.com/ternhq/tern-claude-plugin"
-}
