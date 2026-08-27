@@ -1,9 +1,11 @@
 # Tern agent plugins
 
 The `tern` plugin from [Tern](https://tern.sh) for Claude Code (and Codex)
-gives you two on-demand skills — **tour** and **git-history**. Installing it
-changes no behavior; the agent reaches for a skill when it's relevant (or you
-invoke one explicitly).
+gives you three on-demand skills — **tour**, **git-history** and **setup**.
+Installing it changes no behavior; the agent reaches for a skill when it's
+relevant (or you invoke one explicitly). The one automatic piece is a
+session-start check that tells the agent, once, if the `tern` CLI isn't
+installed yet.
 
 ```text
 /plugin marketplace add ternhq/tern-claude-plugin
@@ -73,6 +75,24 @@ It returns four signals, each a breadcrumb you can't get by reading code at HEAD
 - **movement** — how hot or cold each file is across recent windows.
 - **revert_prone** — files where changes have repeatedly been hard to land.
 
+### setup
+
+Installs the `tern` CLI and runs `tern bootstrap`, the one command that gets a
+machine ready: it signs you in (creating an account if you don't have one),
+links the repo, runs the initial scan over your agent sessions, and mines your
+review lens. Every step it has already done is skipped, so it's safe to re-run.
+It then starts the local agent with `tern connect` — a local server that runs
+forever, so it stays up in the background.
+
+```text
+/tern:setup
+```
+
+You rarely need to invoke it. Install the plugin on a machine without the CLI
+and the agent runs this for you on the next turn, telling you Tern is finishing
+setting up — the sign-in link is the only part you have to do. The tour and
+git-history skills bootstrap on their own too.
+
 ---
 
 ## Requirements
@@ -81,12 +101,13 @@ It returns four signals, each a breadcrumb you can't get by reading code at HEAD
 - A local git checkout of the repo you're working in.
 - The [`gh` CLI](https://cli.github.com), authenticated. Used to find a branch's
   PR (tour) and to list in-flight PRs (git-history).
-- An account on app.tern.sh. A randomly generated one is created for you on first
-  run, with credentials stored in `~/.tern`.
+- An account on app.tern.sh. `tern bootstrap` signs you in on first run — it
+  prints a sign-in URL and waits — and stores credentials in `~/.tern`.
 
 The skills are self-contained: on first run they install the `tern` CLI if it's
-missing (`curl -fsSL https://tern.sh/install.sh | bash`) and create an account
-if there isn't one.
+missing (`curl -fsSL https://tern.sh/install.sh | bash`) and run `tern bootstrap`
+if the machine isn't set up. That first bootstrap takes a few minutes — the
+initial scan and the review lens are the slow steps.
 
 ## Codex
 
@@ -96,9 +117,11 @@ picks the install location:
 ```text
 $skill-installer install https://github.com/ternhq/tern-claude-plugin/tree/main/plugins/tern/skills/tour
 $skill-installer install https://github.com/ternhq/tern-claude-plugin/tree/main/plugins/tern/skills/git-history
+$skill-installer install https://github.com/ternhq/tern-claude-plugin/tree/main/plugins/tern/skills/setup
 ```
 
-Then invoke with `$tour` or `$git-history`.
+Then invoke with `$tour`, `$git-history` or `$setup`. The session-start check is
+Claude Code only; in Codex the skills still bootstrap on their own.
 
 ## Learn more
 

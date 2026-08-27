@@ -1,6 +1,6 @@
 ---
 name: tour
-description: Set up Tern and open an AI-guided review tour of a branch or GitHub PR in the browser. Use when the user wants to review the current branch or a pull request with Tern, says "review this branch with tern" or "review this PR with tern", or pastes a GitHub PR URL for a guided tour. Installs the tern CLI if missing, creates an account on app.tern.sh if there isn't one, and runs `tern tour`.
+description: Set up Tern and open an AI-guided review tour of a branch or GitHub PR in the browser. Use when the user wants to review the current branch or a pull request with Tern, says "review this branch with tern" or "review this PR with tern", or pastes a GitHub PR URL for a guided tour. Installs the tern CLI if missing, bootstraps the machine with `tern bootstrap` (account, repo link) if it isn't set up, and runs `tern tour`.
 argument-hint: "[github-pr-url]"
 allowed-tools: Bash
 ---
@@ -8,8 +8,8 @@ allowed-tools: Bash
 # Tern Tour
 
 Sets up Tern if needed and opens an AI-guided tour of the branch you have
-checked out (or a GitHub PR) in the browser. If the machine has no Tern
-account, one is created automatically on app.tern.sh.
+checked out (or a GitHub PR) in the browser. A machine that isn't set up is
+handled by `tern bootstrap` in Step 2.
 
 Tern installs to `~/.tern/bin`, which is often not on `PATH`. Resolve the
 binary once and use `$TERN` for every command below:
@@ -27,24 +27,32 @@ updates to the latest version.
 command -v tern >/dev/null 2>&1 || [ -x "$HOME/.tern/bin/tern" ] || curl -fsSL https://tern.sh/install.sh | bash
 ```
 
-## Step 2: Ensure an account
+## Step 2: Bootstrap the machine
 
-`tern tour` needs a Tern account. Run by a person without one, it drops
-into an interactive sign-in UI, which a skill can't drive, so create the
-account up front. Only do this if the machine isn't already signed in, and
-never overwrite an existing identity.
+`tern tour` needs a Tern account and a linked repo. `tern bootstrap` is the one
+command that supplies both — and everything else the machine still needs. Every
+step it has already done is skipped, so it is safe to run any time.
 
-Pick two short, random, lowercase words (for example `maple-otter`) and use
-them as the username suffix:
+Check first; a set-up machine needs nothing:
 
 ```bash
-"$TERN" auth whoami >/dev/null 2>&1 || "$TERN" auth new --username "$(whoami)-WORD1-WORD2"
+"$TERN" bootstrap --check --json
 ```
 
-Replace `WORD1-WORD2` with the two words you picked. The `$(whoami)` prefix
-keeps the account recognizable in the Tern UI; the random words keep it from
-colliding with other users on app.tern.sh. If the username is already taken,
-pick two different words and retry.
+If that reports `ready: true`, go straight to Step 3. Otherwise:
+
+```bash
+"$TERN" bootstrap
+```
+
+On a machine with no account this prints an `app.tern.sh` sign-in URL (and opens
+a browser if there is one) and blocks until the user finishes — surface the URL.
+The first run also takes a few minutes: it runs the initial scan and mines the
+review lens.
+
+It exits `3` if something required is still missing. Two things it cannot do for
+you: install git, and supply LLM provider credentials. Both come back as a row
+with a `fix_cmd` naming the real remedy — relay it rather than retrying.
 
 ## Step 3: Open the tour
 
@@ -90,5 +98,6 @@ exits. Requires the `gh` CLI authenticated against GitHub:
   current branch. If `gh` is missing or unauthenticated, pass an explicit PR
   URL instead.
 - Edge case: touring a branch with no open PR requires the repo to already be
-  linked. If Tern reports it isn't linked, run `"$TERN" repo add .` once (add
-  `--org <slug>` if it lists multiple orgs), then retry.
+  linked. Step 2 links it; if Tern still reports it isn't, run
+  `"$TERN" repo add .` once (add `--org <slug>` if it lists multiple orgs), then
+  retry.

@@ -32,22 +32,27 @@ updates to the latest version.
 command -v tern >/dev/null 2>&1 || [ -x "$HOME/.tern/bin/tern" ] || curl -fsSL https://tern.sh/install.sh | bash
 ```
 
-## Step 2: Ensure an account
+## Step 2: Bootstrap the machine
 
 The first `git-history` run links the repo on the way through, which needs a
-Tern account. Run by a person without one, that drops into an interactive
-sign-in a skill can't drive, so create the account up front. Only do this if the
-machine isn't already signed in, and never overwrite an existing identity.
-
-Pick two short, random, lowercase words (for example `maple-otter`) as the
-username suffix:
+Tern account. `tern bootstrap` supplies both, and skips every step already done:
 
 ```bash
-"$TERN" auth whoami >/dev/null 2>&1 || "$TERN" auth new --username "$(whoami)-WORD1-WORD2"
+"$TERN" bootstrap --check --json
 ```
 
-Replace `WORD1-WORD2` with the two words you picked. If the username is already
-taken, pick two different words and retry.
+If that reports `ready: true`, go straight to Step 3. Otherwise:
+
+```bash
+"$TERN" bootstrap
+```
+
+On a machine with no account it prints an `app.tern.sh` sign-in URL and blocks
+until the user finishes — surface the URL. The first run takes a few minutes.
+
+It exits `3` if something required is still missing, with a `fix_cmd` on each
+failing row. git and LLM provider credentials are the two it cannot supply
+itself; relay those rather than retrying.
 
 ## Step 3: Run git-history on your planned files
 
