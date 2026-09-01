@@ -1,7 +1,7 @@
 # Tern agent plugins
 
 The `tern` plugin from [Tern](https://tern.sh) for Claude Code (and Codex)
-gives you three on-demand skills — **tour**, **git-history** and **setup**.
+gives you two on-demand skills — **tour** and **setup**.
 Installing it changes no behavior; the agent reaches for a skill when it's
 relevant (or you invoke one explicitly). The one automatic piece is a
 session-start check that tells the agent, once, if the `tern` CLI isn't
@@ -50,31 +50,6 @@ The tour opens in your browser — stops on the left rail, the diff on the right
 No browser available (remote or CI shell)? It falls back to posting the tour as
 a pending GitHub review.
 
-### git-history
-
-For a set of files you're about to change, surface what git history knows that
-the code at HEAD doesn't. Fully deterministic (no LLM), language-neutral (it
-shells out to `git`/`gh`, never parses source), read-only against the repo.
-
-Ask your agent while you're planning a change:
-
-> what should I know about these files before I edit them, with tern
-
-Or invoke it explicitly with the comma-separated files you plan to touch:
-
-```text
-/tern:git-history src/foo.ts,src/bar.ts
-```
-
-It returns four signals, each a breadcrumb you can't get by reading code at HEAD:
-
-- **moves_together** — files outside your change surface that historically change
-  with it. Go read them.
-- **in_flight** — open PRs touching these files right now, with their authors'
-  stated intent. Consider their direction before you collide.
-- **movement** — how hot or cold each file is across recent windows.
-- **revert_prone** — files where changes have repeatedly been hard to land.
-
 ### setup
 
 Installs the `tern` CLI and runs `tern bootstrap`, the one command that gets a
@@ -90,8 +65,8 @@ forever, so it stays up in the background.
 
 You rarely need to invoke it. Install the plugin on a machine without the CLI
 and the agent runs this for you on the next turn, telling you Tern is finishing
-setting up — the sign-in link is the only part you have to do. The tour and
-git-history skills bootstrap on their own too.
+setting up — the sign-in link is the only part you have to do. The tour skill
+bootstraps on its own too.
 
 ---
 
@@ -100,7 +75,7 @@ git-history skills bootstrap on their own too.
 - macOS or Linux (the CLI installer is `curl … | bash`).
 - A local git checkout of the repo you're working in.
 - The [`gh` CLI](https://cli.github.com), authenticated. Used to find a branch's
-  PR (tour) and to list in-flight PRs (git-history).
+  PR.
 - An account on app.tern.sh. `tern bootstrap` signs you in on first run — it
   prints a sign-in URL and waits — and stores credentials in `~/.tern`.
 
@@ -116,11 +91,10 @@ picks the install location:
 
 ```text
 $skill-installer install https://github.com/ternhq/tern-claude-plugin/tree/main/plugins/tern/skills/tour
-$skill-installer install https://github.com/ternhq/tern-claude-plugin/tree/main/plugins/tern/skills/git-history
 $skill-installer install https://github.com/ternhq/tern-claude-plugin/tree/main/plugins/tern/skills/setup
 ```
 
-Then invoke with `$tour`, `$git-history` or `$setup`. The session-start check is
+Then invoke with `$tour` or `$setup`. The session-start check is
 Claude Code only; in Codex the skills still bootstrap on their own.
 
 ## Learn more

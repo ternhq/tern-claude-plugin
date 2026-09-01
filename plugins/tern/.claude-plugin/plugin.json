@@ -1,6 +1,6 @@
 {
   "name": "tern",
-  "description": "Tern's on-demand skills: open an AI-guided tour of a branch or PR, surface what git history knows that the code at HEAD doesn't (co-change, in-flight PRs, movement, revert-prone files) for the files you're about to change, and get the machine set up with `tern bootstrap`.",
+  "description": "Tern's on-demand skills: open an AI-guided tour of a branch or PR, and get the machine set up with `tern bootstrap`.",
   "author": {
     "name": "Tern"
   },

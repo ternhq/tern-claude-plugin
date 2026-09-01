@@ -66,7 +66,7 @@ stamp="${TMPDIR:-/tmp}/tern-ensure-hook-${session:-unknown}"
 # stops at EOF and reports it, hence the `|| true`.
 read -r -d '' MESSAGE <<'TXT' || true
 The Tern plugin is installed but the `tern` CLI is not on this machine, so the
-tour and git-history skills cannot run yet.
+tour skill cannot run yet.
 
 If the user has just installed the Tern plugin or this is a new session, do not
 ask — set it up now, before anything else this turn. Tell them Tern is finishing
